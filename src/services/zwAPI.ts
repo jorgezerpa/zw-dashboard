@@ -71,8 +71,12 @@ export const deleteWidget = async(id:string) => {
 
 
 
-export const getAssets = async() => {
-    const result = await axios.get(endpoints.mediaGetAssets)
+export const getAssets = async(filter:string|null=null) => {
+    let path = endpoints.mediaGetAssets
+    if(filter){
+        path = `${path}?filter=${filter}`
+    }
+    const result = await axios.get(path)
     return result.data.data
 }
 export const uploadAsset = async(asset:any) => {
