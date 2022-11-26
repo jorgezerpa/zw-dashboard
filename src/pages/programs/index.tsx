@@ -6,7 +6,7 @@ import useUIState from '../../hooks/useUIState';
 const index = () => {
   const router = useRouter()
   const [programs, setPrograms] = useState([])
-  const { isLoading, setIsLoading } = useUIState(true) 
+  const { isLoading, setIsLoading, error, setError } = useUIState(true) 
 
   const handleClickToEdit = (id:string|number) => router.push(`/programs/${id}`)
   const handleClickToSection = (id:string|number) => router.push(`/sections/${id}`) //the program Id
@@ -28,9 +28,10 @@ const index = () => {
       <div className='w-full flex justify-end items-center pt-10 pr-10'>
         <button onClick={()=>{ router.push('/programs/create') }} className="py-3 px-5 bg-gray-500  text-white rounded-xl" >crear</button>
       </div>
-      { isLoading
-         ? 'loading' 
-         : (
+
+      {isLoading && <div>Loading...</div>}
+      {(!isLoading && error ) && <div>ups! an error happens :(</div>}
+      {(!isLoading && !error ) && (
           <div className='w-full h-screen p-5 sm:p-10 flex flex-wrap gap-20'>
             { programs.length<=0 && <div className='w-full flex justify-center items-center h-[200px]'><h3 className='text-gray-900 text-5xl font-bold'>No Tienes Programas</h3></div> }
             { programs.length>0 && programs.map((program:{ id:string|number, name:string, description:string })=>(
@@ -45,7 +46,7 @@ const index = () => {
               </div>
             ))}
           </div>
-         )}
+      )}
     </>
   );
 }
