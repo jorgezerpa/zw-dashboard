@@ -1,13 +1,14 @@
 import React, { useRef, useEffect, useState, SyntheticEvent } from 'react'
 import { useRouter } from 'next/router'
 import { getProgram, updateProgram, deleteProgram } from '../../services/zwAPI'
-import useLoading from '../../hooks/useLoading'
+import useUIState from '../../hooks/useUIState'
+import { ComeBackButton } from '../../components/ComeBackButton'
 
 const upsert = () => {
   const formRef = useRef<HTMLFormElement>(null)
   const { id } = useRouter().query
   const [program, setProgram] = useState<{id?:string, name?:string, description?:string}>({})
-  const [isLoading, setIsLoading] = useLoading(true)
+  const { isLoading, setIsLoading } = useUIState(true)
 
   useEffect(() => {
     (async()=>{
@@ -55,6 +56,9 @@ const upsert = () => {
   
   return (
     <div className='m-5'>
+      <div className='p-4'>
+        <ComeBackButton />
+      </div>
       <h2 className='text-4xl font-bold mb-5'>Editar Programa</h2>
       {isLoading
         ? 'loading'

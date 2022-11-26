@@ -23,7 +23,7 @@ const index = () => {
   return (
     <>
       <div className='w-full flex justify-between items-center pt-10 pr-10'>
-        <ComeBackButton path='/programs' />
+        <ComeBackButton />
         <button onClick={()=>{ router.push(`/sections/create/${router.query.programId}`)}} className="py-3 px-5 bg-gray-500 text-white rounded-xl">crear</button>
       </div>
       <div className='w-full h-screen p-5 flex flex-wrap gap-20'>

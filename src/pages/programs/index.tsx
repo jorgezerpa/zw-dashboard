@@ -1,21 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation';
 import { getPrograms } from '../../services/zwAPI';
-import useLoading from '../../hooks/useLoading';
+import useUIState from '../../hooks/useUIState';
 
 const index = () => {
   const router = useRouter()
   const [programs, setPrograms] = useState([])
-  const [isLoading, setIsLoading] = useLoading(true)
+  const { isLoading, setIsLoading } = useUIState(true) 
 
   const handleClickToEdit = (id:string|number) => router.push(`/programs/${id}`)
   const handleClickToSection = (id:string|number) => router.push(`/sections/${id}`) //the program Id
 
   useEffect(() => {
     (async()=>{
-      const result = await getPrograms()
-      setPrograms(result.programs)
-      setIsLoading(false)
+      try {
+        const result = await getPrograms()
+        setPrograms(result.programs)
+        setIsLoading(false)
+      } catch (error) {
+        setIsLoading(false)
+      }
     })()
   }, [])
   
@@ -42,7 +46,6 @@ const index = () => {
             ))}
           </div>
          )}
-
     </>
   );
 }

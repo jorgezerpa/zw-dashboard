@@ -1,5 +1,6 @@
 import React, { SyntheticEvent, useRef } from 'react'
 import { createProgram } from '../../services/zwAPI'
+import { ComeBackButton } from '../../components/ComeBackButton'
 
 const create = () => {
     const formRef = useRef<HTMLFormElement>(null)
@@ -19,6 +20,9 @@ const create = () => {
 
   return (
     <div className='m-5'>
+      <div className='p-4'>
+        <ComeBackButton />
+      </div>
       <h2 className='text-4xl font-bold mb-5'>Crear Programa</h2>
       <form ref={ formRef } onSubmit={handleSubmit} >
         <div className="mb-6">

@@ -1,9 +1,9 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 
-export const ComeBackButton = ({ path }: { path:string }) => {
+export const ComeBackButton = () => {
     const router = useRouter()
-    const handleComeBack = () => router.push(path)
+    const handleComeBack = () => router.back()
   
     return (
     <div onClick={handleComeBack}>

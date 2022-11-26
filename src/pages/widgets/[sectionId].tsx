@@ -1,6 +1,7 @@
 import React, { SyntheticEvent, useEffect, useState } from 'react'
 import { useRouter } from 'next/router';
 import { getWidgets } from '../../services/zwAPI';
+import { ComeBackButton } from '../../components/ComeBackButton';
 
 const index = () => {
   const router = useRouter()
@@ -20,7 +21,8 @@ const index = () => {
   
   return (
     <>
-      <div className='w-full flex justify-end items-center pt-10 pr-10'>
+      <div className='w-full flex justify-between items-center pt-10 pr-10'>
+        <ComeBackButton />
         <button onClick={()=>{ router.push(`/widgets/create/${router.query.sectionId}`)}} className="py-3 px-5 bg-gray-500 text-white rounded-xl">crear</button>
       </div>
 

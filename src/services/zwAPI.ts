@@ -2,8 +2,12 @@ import endpoints from "../utils/zwEndpoints";
 import axios from 'axios'
 
 export const getPrograms = async() => {
-    const result = await axios.get(endpoints.getPrograms)
-    return result.data.data
+    try {
+        const result = await axios.get(endpoints.getPrograms)
+        return result.data.data
+    } catch (error) {
+        throw new Error()
+    }
 }
 export const getProgram = async(id:string) => {
     const result = await axios.get(endpoints.getProgram(id))
