@@ -18,10 +18,10 @@ export const updateProgram = async(id:string, program:any) => {
     return result.data.data
 }
 export const deleteProgram = async(id:string) => {
+    console.log(id)
     const result = await axios.delete(endpoints.deleteProgram(id))
     return result.data.data
 }
-
 
 export const getSections = async(programId:string) => {
     const result = await axios.get(endpoints.getSections(programId))

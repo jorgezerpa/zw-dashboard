@@ -6,7 +6,7 @@ export const MainLayout = ({ children }:PropsWithChildren) => {
   return (
     <div className='w-full flex overflow-y-hidden'>
         <Sidebar />
-        <div className='h-screen'>
+        <div className='h-screen w-full'>
             { children }
         </div>
     </div>
