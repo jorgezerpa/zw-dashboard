@@ -19,6 +19,7 @@ const index = () => {
         setIsLoading(false)
       } catch (error) {
         setIsLoading(false)
+        setError(true)
       }
     })()
   }, [])
@@ -30,7 +31,6 @@ const index = () => {
       </div>
 
       {isLoading && <div>Loading...</div>}
-      {(!isLoading && error ) && <div>ups! an error happens :(</div>}
       {(!isLoading && !error ) && (
           <div className='w-full h-screen p-5 sm:p-10 flex flex-wrap gap-20'>
             { programs.length<=0 && <div className='w-full flex justify-center items-center h-[200px]'><h3 className='text-gray-900 text-5xl font-bold'>No Tienes Programas</h3></div> }
