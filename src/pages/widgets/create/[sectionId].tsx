@@ -3,6 +3,7 @@ import { createWidget } from '../../../services/zwAPI'
 import { useRouter } from 'next/router'
 import { ComeBackButton } from '../../../components/ComeBackButton';
 import { useUIContext } from '../../../context/UIContext';
+import { MediaModal } from '../../../components/mediaModal/MediaModal';
 
 const create = () => {
   const context = useUIContext()
@@ -66,6 +67,7 @@ const create = () => {
           <div>Cargando</div>
         </div>
       )}
+      <MediaModal filter="images" />
     </>
   )
 }
