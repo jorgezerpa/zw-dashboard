@@ -1,19 +1,19 @@
 import React, { useRef, useEffect, useState, SyntheticEvent } from 'react'
-import { useRouter } from 'next/router'
+import Router, { useRouter } from 'next/router'
 import { getProgram, updateProgram, deleteProgram } from '../../services/zwAPI'
 import useUIState from '../../hooks/useUIState'
 import { ComeBackButton } from '../../components/ComeBackButton'
 
 const upsert = () => {
   const formRef = useRef<HTMLFormElement>(null)
-  const { id } = useRouter().query
+  const router = useRouter()
   const [program, setProgram] = useState<{id?:string, name?:string, description?:string}>({})
   const { isLoading, setIsLoading } = useUIState(true)
 
   useEffect(() => {
     (async()=>{
-      if(typeof id === 'string'){
-        const result = await getProgram(id)
+      if(typeof router.query.id === 'string'){
+        const result = await getProgram(router.query.id)
         setProgram(result.program)
         setIsLoading(false)
       }
@@ -49,7 +49,8 @@ const upsert = () => {
   const handleDelete = async() => {
     if(program.id){
       const result = await deleteProgram(program.id)
-      console.log('deleted')
+      router.back()
+      Router
     }
   }
 

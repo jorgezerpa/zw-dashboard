@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation';
 import { getPrograms } from '../../services/zwAPI';
-import useUIState from '../../hooks/useUIState';
+import { useUIContext } from '../../context/UIContext';
 
 const index = () => {
+  const { isLoading, setIsLoading, error, setError } = useUIContext()
   const router = useRouter()
   const [programs, setPrograms] = useState([])
-  const { isLoading, setIsLoading, error, setError } = useUIState(true) 
 
   const handleClickToEdit = (id:string|number) => router.push(`/programs/${id}`)
   const handleClickToSection = (id:string|number) => router.push(`/sections/${id}`) //the program Id
