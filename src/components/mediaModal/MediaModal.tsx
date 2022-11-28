@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, Dispatch, SetStateAction } from 'react'
 import { getAssets } from '../../services/zwAPI'
 
-export const MediaModal = ({filter=null}:{filter:string|null}) => {
+export const MediaModal = ({type, selectorHandler, openModal}:{type:'images'|'files'|'videos', selectorHandler:Dispatch<SetStateAction<string|number>>, openModal:Dispatch<SetStateAction<boolean>>}) => {
   const [assets, setAssets] = useState<any[]>([])
   const [assetsSearched, setAssetsSearched] = useState<any[]>([])
   const searchBarRef = useRef<HTMLInputElement>(null)
@@ -9,14 +9,16 @@ export const MediaModal = ({filter=null}:{filter:string|null}) => {
 
   useEffect(() => {
    (async()=>{
-      const result = await getAssets(filter)
-      setAssets(result.images)
-      setAssetsSearched(result.images)
+      console.log(type)
+      const result = await getAssets(type)
+      setAssets(result[type])
+      setAssetsSearched(result[type])
    })()
   }, [])
 
   const handleClick = (id:string|number) => {
-    console.log(id)
+    selectorHandler(id)
+    openModal(false)
   }
   
   const handleFilters = () => {
