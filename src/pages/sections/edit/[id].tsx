@@ -1,33 +1,49 @@
 import React, { useRef, useEffect, useState, SyntheticEvent } from 'react'
 import { useRouter } from 'next/router'
-import { getSection, updateSection } from '../../../services/zwAPI'
-import useUIState from '../../../hooks/useUIState'
+import { getSection, updateSection, deleteSection } from '../../../services/zwAPI'
+import { useUIContext } from '../../../context/UIContext'
 import { ComeBackButton } from '../../../components/ComeBackButton'
 
 const upsert = () => {
   const formRef = useRef<HTMLFormElement>(null)
-  const { id } = useRouter().query
+  const router = useRouter()
   const [section, setSection] = useState<{id?:string, name?:string, coverImage?:string, description?:string, type?:string, widgetsOrder?:string}>({})
-  const { isLoading, setIsLoading } = useUIState(true)
+  const { isLoading, setIsLoading, setError, error } = useUIContext()
+  const [updated, setUpdated] = useState(false)
+  const [isUpdating, setIsUpdating] = useState(false)
 
   useEffect(() => {
     (async()=>{
-      if(typeof id === 'string'){
-        const result = await getSection(id)
-        setSection(result.section)
+      try {
+        if(typeof router.query.id === 'string'){
+          setIsLoading(true)
+          const result = await getSection(router.query.id)
+          setSection(result.section)
+          setIsLoading(false)
+        }
+      } catch (error) {
         setIsLoading(false)
-      }
+        setError(false)
+      } 
     })()
-  }, [])
+  }, [router])
 
   const handleSubmit = async(e:SyntheticEvent) => {
       e.preventDefault()
-      if(formRef.current){
-          const data = new FormData(formRef.current)
-          if(section.id){
-            const result = await updateSection(section.id, data)
-            console.log(result)
-          }
+      setIsUpdating(true)
+      setUpdated(false)
+      try {
+        if(formRef.current){
+            const data = new FormData(formRef.current)
+            if(section.id){
+              const result = await updateSection(section.id, data)
+              setIsUpdating(false)
+              setUpdated(true)
+            }
+        }
+      } catch (error) {
+        setIsUpdating(false)
+        setError(true)
       }
   }
 
@@ -40,15 +56,27 @@ const upsert = () => {
     }
   }
 
+  const handleDelete = async() => {
+    setIsLoading(true)
+    try {
+      if(section.id){
+        const result = await deleteSection(section.id)
+        router.back()
+      }
+    } catch (error) {
+        setIsLoading(false)
+        setError(true)
+    }
+  }
+
   return (
     <div className='m-5'>
       <div>
         <ComeBackButton />
       </div>
       <h2 className='text-4xl font-bold mb-5'>Actualizar Sección</h2>
-      { isLoading
-          ? 'loading' 
-          :(
+      { isLoading && 'loading...' }
+      { (!isLoading && !error) && (
           <form ref={ formRef } onSubmit={handleSubmit} onChange={handleOnChage} method="POST" encType='multipart/form-data' >
             <div className="mb-6">
               <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre</label>
@@ -56,7 +84,7 @@ const upsert = () => {
             </div>
             <div className="mb-6">
               <label htmlFor="coverImage" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre</label>
-              <input name="coverImage" type="file" id="coverImage" accept='image' required />
+              <input name="coverImage" type="file" id="coverImage" accept='image' />
             </div>
             <div className="mb-6">
               <label htmlFor="descripción" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descripción</label>
@@ -73,8 +101,23 @@ const upsert = () => {
             <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
               Crear
             </button>
+            <button onClick={handleDelete} className="text-white bg-red-600 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                  Eliminar
+                </button>
           </form>
-          )}
+      )}
+      { updated && (
+        <div>
+          <div>Sección actualizado exitosamente</div>
+          <div onClick={()=>{setIsLoading(true);router.back()}}>volver</div>
+        </div>
+      )}
+      { (isUpdating) && (
+        <div>
+          <div>actualizando...</div>
+        </div>
+      )}
+
     </div>
   )
 }

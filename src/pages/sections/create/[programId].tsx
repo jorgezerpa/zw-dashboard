@@ -1,18 +1,30 @@
-import React, { SyntheticEvent, useRef } from 'react'
+import React, { SyntheticEvent, useRef, useEffect, useState } from 'react'
 import { createSection } from '../../../services/zwAPI'
 import { useRouter } from 'next/router'
 import { ComeBackButton } from '../../../components/ComeBackButton'
+import { useUIContext } from '../../../context/UIContext'
 
 const create = () => {
+    const context = useUIContext()
+    const [created, setCreated] = useState(false)
     const formRef = useRef<HTMLFormElement>(null)
     const router = useRouter()
 
+    useEffect(()=>{context.setIsLoading(false)}, [])
+
     const handleSubmit = async(e:SyntheticEvent) => {
         e.preventDefault()
-        if(formRef.current){
-            const data = new FormData(formRef.current)
-            const result = await createSection(router.query.programId, data)
-            console.log(result)
+        context.setIsLoading(true)
+        try {
+          if(formRef.current){
+              const data = new FormData(formRef.current)
+              const result = await createSection(router.query.programId, data)
+              context.setIsLoading(false)
+              setCreated(true)
+            }
+          } catch (error) {
+            context.setIsLoading(false)
+            context.setError(true)
         }
     }
 
@@ -46,6 +58,17 @@ const create = () => {
           Crear
       </button>
       </form>
+      { created && (
+        <div>
+          <div>Programa creado exitosamente</div>
+          <div onClick={()=>{context.setIsLoading(true); router.back()}}>volver</div>
+        </div>
+      )}
+      { context.isLoading && (
+        <div>
+          <div>Cargando</div>
+        </div>
+      )}
     </>
   )
 }

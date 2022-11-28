@@ -1,23 +1,35 @@
-import React, { SyntheticEvent, useRef } from 'react'
+import React, { SyntheticEvent, useRef, useState, useEffect } from 'react'
 import { createWidget } from '../../../services/zwAPI'
 import { useRouter } from 'next/router'
 import { ComeBackButton } from '../../../components/ComeBackButton';
+import { useUIContext } from '../../../context/UIContext';
 
 const create = () => {
+  const context = useUIContext()
     const formRef = useRef<HTMLFormElement>(null)
     const router = useRouter()
+    const [created, setCreated] = useState(false)
+
+    useEffect(()=>{context.setIsLoading(false)}, [])
 
     const handleSubmit = async(e:SyntheticEvent) => {
         e.preventDefault()
-        if(formRef.current){
-            const data = new FormData(formRef.current)
-            const json = {
-              title:data.get('title'),
-              description:data.get('description'),
-              imageId:data.get('imageId')
-            }
-            const result = await createWidget(router.query.sectionId, json)
-            console.log(result)
+        context.setIsLoading(true)
+        try {
+          if(formRef.current){
+              const data = new FormData(formRef.current)
+              const json = {
+                title:data.get('title'),
+                description:data.get('description'),
+                imageId:data.get('imageId')
+              }
+              const result = await createWidget(router.query.sectionId, json)
+              context.setIsLoading(false)
+              setCreated(true)
+          }
+        } catch (error) {
+          context.setIsLoading(false)
+          context.setError(true)
         }
     }
 
@@ -43,6 +55,17 @@ const create = () => {
           Crear
         </button>
       </form>
+      { created && (
+        <div>
+          <div>Programa creado exitosamente</div>
+          <div onClick={()=>{context.setIsLoading(true); router.back()}}>volver</div>
+        </div>
+      )}
+      { context.isLoading && (
+        <div>
+          <div>Cargando</div>
+        </div>
+      )}
     </>
   )
 }

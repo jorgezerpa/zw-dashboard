@@ -4,12 +4,13 @@ import { getPrograms } from '../../services/zwAPI';
 import { useUIContext } from '../../context/UIContext';
 
 const index = () => {
-  const { isLoading, setIsLoading, error, setError } = useUIContext()
+  const { isLoading, setIsLoading, error, setError, handleNavigate } = useUIContext()
   const router = useRouter()
   const [programs, setPrograms] = useState([])
 
-  const handleClickToEdit = (id:string|number) => router.push(`/programs/${id}`)
-  const handleClickToSection = (id:string|number) => router.push(`/sections/${id}`) //the program Id
+  const handleClickToEdit = (id:string|number) => handleNavigate(`/programs/${id}`)
+  const handleClickToSection = (id:string|number) => handleNavigate(`/sections/${id}`) //the program Id
+  const handleClickToCreate = () => router.push('/programs/create')
 
   useEffect(() => {
     (async()=>{
@@ -27,7 +28,7 @@ const index = () => {
   return (
     <>
       <div className='w-full flex justify-end items-center pt-10 pr-10'>
-        <button onClick={()=>{ router.push('/programs/create') }} className="py-3 px-5 bg-gray-500  text-white rounded-xl" >crear</button>
+        <button onClick={()=>{ handleClickToCreate() }} className="py-3 px-5 bg-gray-500  text-white rounded-xl" >crear</button>
       </div>
 
       {isLoading && <div>Loading...</div>}

@@ -10,7 +10,7 @@ export const MainLayout = ({ children }:PropsWithChildren) => {
   return (
     <div className='w-full flex overflow-y-hidden'>
         <Sidebar />
-        <div className='h-screen w-full'>
+        <div className='h-screen w-full overflow-y-scroll'>
             { children }
         </div>
         { context.error && <ErrorModal /> }

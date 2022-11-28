@@ -16,8 +16,8 @@ const endpoints = {
     getWidgets: (sectionId:string)=>`${BASEPATH}/dashboard/widgets/${sectionId}`,
     getWidget: (id:string)=>`${BASEPATH}/dashboard/widgets/find-one/${id}`,
     createWidget:(sectionId:string)=>`${BASEPATH}/dashboard/widgets/${sectionId}`,
-    updateWidget: (id:string)=>`${BASEPATH}/dashboard/widgets/find-one/${id}`,
-    deleteWidget: (id:string)=>`${BASEPATH}/dashboard/widgets/find-one/${id}`,
+    updateWidget: (id:string)=>`${BASEPATH}/dashboard/widgets/${id}`,
+    deleteWidget: (id:string)=>`${BASEPATH}/dashboard/widgets/${id}`,
 
     mediaUpload: ()=>`${BASEPATH}/media/manage/upload`,
     mediaUpdate: (id:string, type:string)=>`${BASEPATH}/media/manage/${id}?type=${type}`,
