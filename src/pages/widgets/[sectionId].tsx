@@ -23,7 +23,7 @@ const index = () => {
           setError(true)
       }
     })()
-  }, [])
+  }, [router])
 
   const handleClickToEdit = (id:string|number) => handleNavigate(`/widgets/edit/${id}`)
   const handleClickToCreate = (sectionId:string|number) => router.push(`/widgets/create/${sectionId}`)
