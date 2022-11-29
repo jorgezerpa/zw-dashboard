@@ -60,7 +60,7 @@ const create = () => {
       </form>
       { created && (
         <div>
-          <div>Programa creado exitosamente</div>
+          <div>Sección creado exitosamente</div>
           <div onClick={()=>{context.setIsLoading(true); router.back()}}>volver</div>
         </div>
       )}

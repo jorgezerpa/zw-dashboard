@@ -1,31 +1,43 @@
 import React, { SyntheticEvent, useRef, useState, useEffect } from 'react'
 import { createWidget } from '../../../services/zwAPI'
 import { useRouter } from 'next/router'
-import { ComeBackButton } from '../../../components/ComeBackButton';
-import { useUIContext } from '../../../context/UIContext';
-import { MediaModal } from '../../../components/mediaModal/MediaModal';
+import { ComeBackButton } from '../../../components/ComeBackButton'
+import { useUIContext } from '../../../context/UIContext'
+import { MediaModal } from '../../../components/mediaModal/MediaModal'
+import deleteNullValues from '../../../utils/deleteNullValues'
 
 const create = () => {
   const context = useUIContext()
     const formRef = useRef<HTMLFormElement>(null)
     const router = useRouter()
     const [created, setCreated] = useState(false)
-    const [imageId, setImageId] = useState<string|number>('')
     const [showMediaModal, setShowMediaModal] = useState(false)
-    console.log(imageId)
+    const [mediaType, setMediaType] = useState<'images'|'videos'|'files'>('videos')
+    const [assetsId, setAssetsId] = useState<{fileId:string|number|null,videoId:string|number|null,imageId:string|number|null}>({
+      fileId: null,
+      videoId: null,
+      imageId: null
+    })
 
     useEffect(()=>{context.setIsLoading(false)}, [])
+
+    const handleAssetClick = (type:'images'|'videos'|'files') => {
+        setShowMediaModal(true)
+        setMediaType(type)
+    }
 
     const handleSubmit = async(e:SyntheticEvent) => {
         e.preventDefault()
         context.setIsLoading(true)
+        const assets = deleteNullValues(assetsId)
+
         try {
           if(formRef.current){
               const data = new FormData(formRef.current)
               const json = {
                 title:data.get('title'),
                 description:data.get('description'),
-                imageId:data.get('imageId')
+                ...assets
               }
               const result = await createWidget(router.query.sectionId, json)
               context.setIsLoading(false)
@@ -52,8 +64,16 @@ const create = () => {
           <input name="description" type="text" id="description" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
         </div>
         <div className="mb-6">
-          <button onClick={()=>setShowMediaModal(true)} >selectImage</button>
-          <p>{ imageId }</p>
+          <div onClick={()=>handleAssetClick('images')} >seleccionar imagen</div>
+          <p>{ assetsId.imageId }</p>
+        </div>
+        <div className="mb-6">
+          <div onClick={()=>handleAssetClick('videos')} >seleccionar video</div>
+          <p>{ assetsId.videoId }</p>
+        </div>
+        <div className="mb-6">
+          <div onClick={()=>handleAssetClick('files')} >seleccionar archivo</div>
+          <p>{ assetsId.fileId }</p>
         </div>
         <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
           Crear
@@ -61,7 +81,7 @@ const create = () => {
       </form>
       { created && (
         <div>
-          <div>Programa creado exitosamente</div>
+          <div>Widget creado exitosamente</div>
           <div onClick={()=>{context.setIsLoading(true); router.back()}}>volver</div>
         </div>
       )}
@@ -71,7 +91,7 @@ const create = () => {
         </div>
       )}
 
-      { showMediaModal && <MediaModal type="images" selectorHandler={setImageId} openModal={setShowMediaModal} /> }
+      { showMediaModal && <MediaModal type={mediaType} selectorHandler={setAssetsId} openModal={setShowMediaModal} /> }
     </>
   )
 }

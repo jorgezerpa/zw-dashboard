@@ -108,7 +108,7 @@ const upsert = () => {
       )}
       { updated && (
         <div>
-          <div>Sección actualizado exitosamente</div>
+          <div>Sección actualizada exitosamente</div>
           <div onClick={()=>{setIsLoading(true);router.back()}}>volver</div>
         </div>
       )}
