@@ -3,10 +3,12 @@ import { useRouter } from 'next/router'
 import { getSection, updateSection, deleteSection } from '../../../services/zwAPI'
 import { useUIContext } from '../../../context/UIContext'
 import { ComeBackButton } from '../../../components/ComeBackButton'
+import { WidgetsOrderModal } from '../../../components/widgetsOrderModal/WidgetsOrderModal'
 
 const upsert = () => {
   const formRef = useRef<HTMLFormElement>(null)
   const router = useRouter()
+  const [showWidgetsOrderModal, setShowWidgetsOrderModal] = useState(false)
   const [section, setSection] = useState<{id?:string, name?:string, coverImage?:string, description?:string, type?:string, widgetsOrder?:string}>({})
   const { isLoading, setIsLoading, setError, error } = useUIContext()
   const [updated, setUpdated] = useState(false)
@@ -91,9 +93,12 @@ const upsert = () => {
               <input defaultValue={section.description} name="description" type="text" id="description" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
             </div>
             <div className="mb-6">
+              <div onClick={()=>setShowWidgetsOrderModal(true)}>orden de los widgets</div>
+            </div>
+            {/* <div className="mb-6">
               <label htmlFor="widgetsOrder" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Widgets Order</label>
               <input defaultValue={section.widgetsOrder} name="widgetsOrder" type="text" id="widgetsOrder" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
-            </div>
+            </div> */}
             <div className="mb-6">
               <label htmlFor="type" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">tipo</label>
               <input defaultValue={section.type} name="type" type="text" id="type" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
@@ -118,6 +123,7 @@ const upsert = () => {
         </div>
       )}
 
+        { showWidgetsOrderModal && <WidgetsOrderModal openModal={setShowWidgetsOrderModal} sectionId={section.id as string} /> }
     </div>
   )
 }
