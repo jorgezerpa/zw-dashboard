@@ -21,6 +21,7 @@ const endpoints = {
 
     mediaUpload: ()=>`${BASEPATH}/media/manage/upload`,
     mediaUpdate: (id:string, type:string)=>`${BASEPATH}/media/manage/${id}?type=${type}`,
+    mediaGetOne: (id:string, type:string)=>`${BASEPATH}/media/manage/${id}?type=${type}`,
     mediaDelete: (id:string, type:string)=>`${BASEPATH}/media/manage/${id}?type=${type}`,
     mediaGetAssets: `${BASEPATH}/media/manage`
 

@@ -87,6 +87,10 @@ export const uploadAsset = async(asset:any) => {
     const result = await axios.post(endpoints.mediaUpload(), asset)
     return result.data.data
 }
+export const getAsset = async(id:string, type:'image'|'video'|'file') => {
+    const result = await axios.get(endpoints.mediaGetOne(id, type))
+    return result.data.data
+}
 export const updateAsset = async(id:string, type:'image'|'video'|'file', asset:any) => {
     const result = await axios.patch(endpoints.mediaUpdate(id, type), asset)
     return result.data.data
