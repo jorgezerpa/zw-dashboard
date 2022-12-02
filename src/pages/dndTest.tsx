@@ -7,14 +7,6 @@ import Dropable from '../components/dnd/dropable'
 const dragables = [{id:1},{id:2},{id:3},{id:4},{id:5}]
 
 const dndTest = () => {
-    const [collected, drag, dragPreview] = useDrag(()=>({
-        type: 'dragable',
-        item: { id:'itemId'},
-        collect: (monitor)=>({
-            isDragging: monitor.isDragging(),
-            didDrop: monitor.didDrop(),
-        })
-    }))
 
   return (
     <>

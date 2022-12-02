@@ -9,10 +9,10 @@ import deleteNullValues from '../../../utils/deleteNullValues'
 type WidgetType = {
 id?: number, 
 title?:string,
-description:string,
-image: {id:number},
-video: {id:number},
-file: {id:number},
+description?:string,
+image?: {id:number},
+video?: {id:number},
+file?: {id:number},
 }
 
 const create = () => {
