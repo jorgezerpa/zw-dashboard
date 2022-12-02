@@ -10,7 +10,7 @@ type WidgetType = {
   file?: {id:number},
 }
 
-const dndTest = ({item}:{item:WidgetType}) => {
+const dndTest = ({item, render}:{item:WidgetType, render:(item:WidgetType)=>any}) => {
     const [collected, drag, dragPreview] = useDrag(()=>({
         type: 'dragable',
         item,
@@ -22,7 +22,9 @@ const dndTest = ({item}:{item:WidgetType}) => {
     }))
 
   return (
-    <div ref={drag} className="w-12 h-12 bg-blue-600 text-white"> {item.id}</div>
+    <div ref={drag} className="">
+      { render(item) }
+    </div>
   )
 }
 

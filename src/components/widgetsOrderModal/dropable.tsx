@@ -11,7 +11,7 @@ type WidgetType = {
   file?: {id:number},
 }
 
-const myDropTarget = ({ itemPositionRef, dragables, setOrder }:{itemPositionRef:number|'start', dragables:WidgetType[], setOrder:(arr:any[])=>void}) => {
+const myDropTarget = ({ itemPositionRef, dragables, setOrder, render }:{itemPositionRef:number|'start', dragables:WidgetType[], setOrder:(arr:any[])=>void, render:()=>any}) => {
     
   const [componentDragables, setComponentDragables] = useState(dragables)
 
@@ -30,7 +30,9 @@ const myDropTarget = ({ itemPositionRef, dragables, setOrder }:{itemPositionRef:
 
   return(
     <>
-      <div ref={drop} className=" mx-5 w-12 h-12 bg-purple-500 text-white font-bold text-center">Drop Target</div>
+      <div ref={drop}>
+        { render() }
+      </div>
     </>
   ) 
 }

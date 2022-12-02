@@ -4,7 +4,10 @@
 export function reOrder(arr:any[], changing:number, destiny:number|'start'){
     const changingIndex = arr.findIndex(item=>item.id===changing)
     const newOrderArray: typeof arr = []
+    
 
+    if(changingIndex === destiny) return arr
+    
     if(destiny==='start'){
         newOrderArray.push(arr[changingIndex])
         newOrderArray.push(...arr.filter(item=>item.id !== arr[changingIndex].id))
