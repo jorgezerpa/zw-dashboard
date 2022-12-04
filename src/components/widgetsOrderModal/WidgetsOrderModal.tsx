@@ -28,18 +28,23 @@ const dropElement = () => (
   </div>
 )
 
-export const WidgetsOrderModal = ({sectionId, openModal}:{sectionId:string, openModal:Dispatch<SetStateAction<boolean>>}) => {
+export const WidgetsOrderModal = ({sectionId, openModal, handleWidgetsSort, widgetsSort }:{sectionId:string, openModal:Dispatch<SetStateAction<boolean>>, handleWidgetsSort:(widgets:WidgetType[])=>void, widgetsSort:number[]}) => {
   const [widgets, setWidgets] = useState<any[]>([])
   const scrollRef = useRef<HTMLDivElement>(null)
 
   const handleSetNewOrder = (widgets:any[]) => {
     setWidgets(widgets)
+    handleWidgetsSort(widgets)
   }
 
   useEffect(() => {
    (async()=>{
       const result = await getWidgets(sectionId)
-      setWidgets(result.widgets)
+      let widgetsSorted:WidgetType[] = []
+      widgetsSort.forEach((id)=>{
+        result.widgets.forEach((widget:WidgetType)=>{if(id==widget.id) widgetsSorted.push(widget)})
+      })
+      setWidgets(widgetsSorted)
    })()
   }, [])
 

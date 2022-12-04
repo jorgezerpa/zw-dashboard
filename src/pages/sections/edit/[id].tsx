@@ -5,15 +5,25 @@ import { useUIContext } from '../../../context/UIContext'
 import { ComeBackButton } from '../../../components/ComeBackButton'
 import { WidgetsOrderModal } from '../../../components/widgetsOrderModal/WidgetsOrderModal'
 
+type WidgetType = {
+  id?: number, 
+  title?:string,
+  description?:string,
+  image?: {id:number},
+  video?: {id:number},
+  file?: {id:number},
+}
+
 const upsert = () => {
   const formRef = useRef<HTMLFormElement>(null)
   const router = useRouter()
+  const [widgetsSort, setWidgetsSort] = useState<number[]>([])  
   const [showWidgetsOrderModal, setShowWidgetsOrderModal] = useState(false)
   const [section, setSection] = useState<{id?:string, name?:string, coverImage?:string, description?:string, type?:string, widgetsOrder?:string}>({})
   const { isLoading, setIsLoading, setError, error } = useUIContext()
   const [updated, setUpdated] = useState(false)
   const [isUpdating, setIsUpdating] = useState(false)
-
+  
   useEffect(() => {
     (async()=>{
       try {
@@ -21,6 +31,7 @@ const upsert = () => {
           setIsLoading(true)
           const result = await getSection(router.query.id)
           setSection(result.section)
+          setWidgetsSort(JSON.parse(result.section.widgetsOrder))
           setIsLoading(false)
         }
       } catch (error) {
@@ -30,6 +41,11 @@ const upsert = () => {
     })()
   }, [router])
 
+  const handleWidgetsSort = (widgets:WidgetType[]) => {
+    const widgetsIds = widgets.map(widget=>widget.id)
+    setWidgetsSort(widgetsIds as number[])
+  }
+
   const handleSubmit = async(e:SyntheticEvent) => {
       e.preventDefault()
       setIsUpdating(true)
@@ -37,8 +53,10 @@ const upsert = () => {
       try {
         if(formRef.current){
             const data = new FormData(formRef.current)
+            data.set('widgetsOrder', JSON.stringify(widgetsSort))
             if(section.id){
               const result = await updateSection(section.id, data)
+              setWidgetsSort(JSON.parse(result.section.widgetsOrder))
               setIsUpdating(false)
               setUpdated(true)
             }
@@ -123,7 +141,7 @@ const upsert = () => {
         </div>
       )}
 
-        { showWidgetsOrderModal && <WidgetsOrderModal openModal={setShowWidgetsOrderModal} sectionId={section.id as string} /> }
+        { showWidgetsOrderModal && <WidgetsOrderModal widgetsSort={widgetsSort} handleWidgetsSort={handleWidgetsSort} openModal={setShowWidgetsOrderModal} sectionId={section.id as string} /> }
     </div>
   )
 }
