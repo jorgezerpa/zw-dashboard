@@ -2,6 +2,8 @@ import React, { SyntheticEvent, useRef, useState, useEffect } from 'react'
 import { updateAsset, getAsset, deleteAsset } from '../../../services/zwAPI'
 import { useUIContext } from '../../../context/UIContext'
 import { useRouter } from 'next/router'
+import { ComeBackButton } from '../../../components/ComeBackButton'
+import { SuccessForm } from '../../../components/SuccessForm'
 
 type AssetType = {id: number|string, path:string, identifier:string, name:string}
 
@@ -75,25 +77,26 @@ const update = () => {
     }
 
     return (
-    <div>
-        <form ref={formRef} method='POST' onChange={handleOnChange} onSubmit={handleSubmit} encType="multipart/form-data" className='mt-5'>
+    <div className='m-5'>
+        <ComeBackButton />
+        <h2 className='text-4xl font-bold mb-5 pl-5'>Actualizar asset</h2>
+        <form ref={formRef} method='POST' onChange={handleOnChange} onSubmit={handleSubmit} encType="multipart/form-data" className='mt-5 pl-5'>
             <div className='mb-2 '>
-                <input defaultValue={asset.identifier} type="text" name="identifier" placeholder='identificador' />
+                <input defaultValue={asset.identifier} type="text" name="identifier" placeholder='identificador' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
             </div>
             <div className='mb-2 '>
-                <input defaultValue={asset.name} type="text" name="name" placeholder='nombre' />
+                <input defaultValue={asset.name} type="text" name="name" placeholder='nombre' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
             </div>
             <div className='mb-2 '>
                 <input type="file" name="asset" />
             </div>
-            <button type='submit' >subir</button>
-            <div onClick={()=> handleDelete()} >delete</div>
+            <button type='submit' className="mr-5 mt-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" >subir</button>
+            <button onClick={()=> handleDelete()} className="text-white bg-red-600 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" >delete</button>
         </form>
-        { context.isLoading && 'uplodeando...' }
+        { context.isLoading && <div className='mt-2'>...actualizando</div> }
         { uploaded && (
             <>
-                <div onClick={()=>{context.setIsLoading(true); router.back()}}>volver</div>
-                <div>subido</div>
+                <SuccessForm message='¡asset actualizado exitosamente!' />
             </>
         )}
     </div>

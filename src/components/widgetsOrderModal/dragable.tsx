@@ -10,8 +10,8 @@ type WidgetType = {
   file?: {id:number},
 }
 
-const dndTest = ({item, render}:{item:WidgetType, render:(item:WidgetType)=>any}) => {
-    const [collected, drag, dragPreview] = useDrag(()=>({
+const dndTest = ({item, render, handleIsDragging}:{item:WidgetType, render:(item:WidgetType)=>any, handleIsDragging:(value:boolean)=>void}) => {
+    const [collected, drag] = useDrag(()=>({
         type: 'dragable',
         item,
         collect: (monitor)=>({
@@ -20,6 +20,10 @@ const dndTest = ({item, render}:{item:WidgetType, render:(item:WidgetType)=>any}
             getDraged: monitor.getItem()
           })
     }))
+
+    useEffect(()=>{
+      handleIsDragging(collected.isDragging)
+    }, [collected.isDragging])
 
   return (
     <div ref={drag} className="">

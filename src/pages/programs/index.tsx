@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation';
 import { getPrograms } from '../../services/zwAPI';
 import { useUIContext } from '../../context/UIContext';
+import { CreateButton } from '../../commons/createButton';
+import { Loading } from '../../components/Loading';
 
 const index = () => {
   const { isLoading, setIsLoading, error, setError, handleNavigate } = useUIContext()
@@ -28,22 +30,21 @@ const index = () => {
   return (
     <>
       <div className='w-full flex justify-end items-center pt-10 pr-10'>
-        <button onClick={()=>{ handleClickToCreate() }} className="py-3 px-5 bg-gray-500  text-white rounded-xl" >crear</button>
+        <CreateButton handleClickToCreate={()=>handleClickToCreate()} />          
       </div>
-
-      {isLoading && <div>Loading...</div>}
+      {isLoading && <div><Loading /></div>}
       {(!isLoading && !error ) && (
           <div className='w-full h-screen p-5 sm:p-10 flex flex-wrap gap-20'>
             { programs.length<=0 && <div className='w-full flex justify-center items-center h-[200px]'><h3 className='text-gray-900 text-5xl font-bold'>No Tienes Programas</h3></div> }
             { programs.length>0 && programs.map((program:{ id:string|number, name:string, description:string })=>(
               <div 
                 key={`programKey${program.id}`} 
-                className='bg-[#234fcf] p-5 rounded-2xl w-[230px] h-[230px] flex flex-col justify-center items-center'
+                className='bg-blue-800 shadow-md shadow-black p-5 rounded-2xl w-[230px] h-[230px] flex flex-col justify-center items-center'
                 onClick={()=>handleClickToSection(program.id) }
               >
-                <h2 className='text-white text-center font-medium text-xl pb-2'>{ program.name }</h2>
-                <p className='text-white text-center pb-5'>{ program.description }</p>
-                <button onClick={(e)=>{ e.stopPropagation(); handleClickToEdit(program.id)}} className="py-2 px-4 bg-yellow-500 font-bold text-white rounded-xl" >editar</button>
+                <h2 className='text-white text-center font-bold text-xl pb-2'>{ program.name }</h2>
+                <p className='text-white text-center pb-5 text-md'>{ program.description }</p>
+                <button onClick={(e)=>{ e.stopPropagation(); handleClickToEdit(program.id)}} className="py-2 px-4 bg-yellow-500 font-bold text-white rounded-xl hover:shadow-white hover:shadow-sm" >editar</button>
               </div>
             ))}
           </div>
