@@ -1,7 +1,7 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/zerpcdkk/zerpasw.zerpacode.com
+    - export DEPLOYPATH=/home/zerpcdkk/zerpasw.admin.zerpacode.com
     - /bin/cp -r * $DEPLOYPATH
     - source /home/zerpcdkk/nodevenv/zerpasw.admin.zerpacode.com/14/bin/activate && cd /home/zerpcdkk/zerpasw.admin.zerpacode.com
     - npm run build && npm run start
