@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { getSections } from '../../services/zwAPI';
 import { ComeBackButton } from '../../components/ComeBackButton';
 import { useUIContext } from '../../context/UIContext';
-import { CreateButton } from '../../commons/createButton';
+import { CreateButton } from '../../commons/CreateButton';
 
 const index = () => {
   const { isLoading, setIsLoading, error, setError, handleNavigate } = useUIContext()
