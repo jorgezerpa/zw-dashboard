@@ -14,41 +14,44 @@ const update = () => {
     const formRef = useRef<HTMLFormElement>(null)
     const [uploaded, setUploaded] = useState(false)
     const [asset, setAsset] = useState<Partial<AssetType>>({})
-    const { handleLogin } = useAuth()
+    const { handleLogin, token } = useAuth()
     handleLogin()
 
 
     useEffect(() => {
         (async()=>{
-            try {
-                if(typeof router.query.id==='string'){
-                    let type: "image" | "video" | "file" = 'image' //by default to satisfy ts, but yes or yes have to be setted
-                    if(router.query.type==='images') type='image'
-                    if(router.query.type==='videos') type='video'
-                    if(router.query.type==='files') type='file'
-                    const result = await getAsset(router.query.id, type)
-                    setAsset(result)
+            if(token){
+
+                try {
+                    if(typeof router.query.id==='string'){
+                        let type: "image" | "video" | "file" = 'image' //by default to satisfy ts, but yes or yes have to be setted
+                        if(router.query.type==='images') type='image'
+                        if(router.query.type==='videos') type='video'
+                        if(router.query.type==='files') type='file'
+                        const result = await getAsset(router.query.id, type, token)
+                        setAsset(result)
+                        context.setIsLoading(false)
+                    }
+                } catch (error) {
                     context.setIsLoading(false)
+                    context.setError(false)
                 }
-            } catch (error) {
-                context.setIsLoading(false)
-                context.setError(false)
             }
         })()
-    }, [router])
+    }, [router, token])
 
     const handleSubmit = async(e:SyntheticEvent) => {
         e.preventDefault()
         context.setIsLoading(true)
         try {
-            if(formRef.current){
+            if(formRef.current && token){
                 const data = new FormData(formRef.current)
                 if(typeof router.query.id==='string'){
                 let type: "image" | "video" | "file" = 'image' //by default to satisfy ts, but yes or yes have to be setted
                 if(router.query.type==='images') type='image'
                 if(router.query.type==='videos') type='video'
                 if(router.query.type==='files') type='file'
-                const result = await updateAsset(router.query.id, type, data)
+                const result = await updateAsset(router.query.id, type, data, token)
                 context.setIsLoading(false)
                 setUploaded(true)
                 }
@@ -62,12 +65,12 @@ const update = () => {
     const handleDelete = async() => {
         context.setIsLoading(true)
         try {
-          if(asset.id){
+          if(asset.id && token){
             let type: "image" | "video" | "file" = 'image' //by default to satisfy ts, but yes or yes have to be setted
             if(router.query.type==='images') type='image'
             if(router.query.type==='videos') type='video'
             if(router.query.type==='files') type='file'
-            const result = await deleteAsset(asset.id as string, type)
+            const result = await deleteAsset(asset.id as string, type, token)
             router.back()
           }
         } catch (error) {

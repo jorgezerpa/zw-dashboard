@@ -14,14 +14,14 @@ const index = () => {
   const handleClickToEdit = (id:string|number) => handleNavigate(`/sections/edit/${id}`)
   const handleClickToSection = (id:string|number) => handleNavigate(`/widgets/${id}`) //the program Id
   const handleClickToCreate = (programId:string|number) => router.push(`/sections/create/${programId}`)
-  const { handleLogin } = useAuth()
+  const { handleLogin, token, getAccessTokenSilently } = useAuth()
   handleLogin()
   
   useEffect(() => {
     (async()=>{
       try {
-        if(typeof router.query.programId === 'string'){
-          const result = await getSections(router.query.programId)
+        if(typeof router.query.programId === 'string' && token){
+          const result = await getSections(router.query.programId, token)
           setSections(result.sections)
           setIsLoading(false)
         }          
@@ -30,7 +30,7 @@ const index = () => {
         setError(true)
       }
     })()
-  }, [])
+  }, [token])
   
   return (
     <>

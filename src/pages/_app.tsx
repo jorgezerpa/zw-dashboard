@@ -13,6 +13,8 @@ export default function App({ Component, pageProps }: AppProps) {
     domain="dev-x7zwzkjp2jhejnw5.us.auth0.com"
     clientId="BzI7A4OgEBQamHthS6z3Va87qhtXY6nj"
     redirectUri='http://localhost:3000'
+    scope='admin'
+    audience='https://zerpasw.zerpacode.com/api'
     >
         <DndProvider backend={HTML5Backend}>
           <UIContextProvider>

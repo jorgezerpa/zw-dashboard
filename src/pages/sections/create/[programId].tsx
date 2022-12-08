@@ -11,7 +11,7 @@ const create = () => {
   const [created, setCreated] = useState(false)
   const formRef = useRef<HTMLFormElement>(null)
   const router = useRouter()
-  const { handleLogin } = useAuth()
+  const { handleLogin, token } = useAuth()
   handleLogin()
 
     useEffect(()=>{context.setIsLoading(false)}, [])
@@ -20,9 +20,9 @@ const create = () => {
         e.preventDefault()
         context.setIsLoading(true)
         try {
-          if(formRef.current){
+          if(formRef.current && token){
               const data = new FormData(formRef.current)
-              const result = await createSection(router.query.programId, data)
+              const result = await createSection(router.query.programId, data, token)
               context.setIsLoading(false)
               setCreated(true)
             }

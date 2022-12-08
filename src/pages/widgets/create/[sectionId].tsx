@@ -31,7 +31,7 @@ const create = () => {
       videoId: null,
       imageId: null
     })
-    const { handleLogin } = useAuth()
+    const { handleLogin, token } = useAuth()
     handleLogin()
     
     useEffect(()=>{context.setIsLoading(false)}, [])
@@ -47,14 +47,14 @@ const create = () => {
         const assets = deleteNullValues(assetsId)
 
         try {
-          if(formRef.current){
+          if(formRef.current && token){
               const data = new FormData(formRef.current)
               const json = {
                 title:data.get('title'),
                 description:data.get('description'),
                 ...assets
               }
-              const result = await createWidget(router.query.sectionId, json)
+              const result = await createWidget(router.query.sectionId, json, token)
               context.setIsLoading(false)
               setCreated(true)
           }

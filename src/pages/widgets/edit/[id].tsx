@@ -42,18 +42,18 @@ const create = () => {
       videoId: null,
       imageId: null
     })
-    const { handleLogin } = useAuth()
+    const { handleLogin, token } = useAuth()
     handleLogin()
 
     useEffect(()=>{
       (async()=>{
-        if(typeof router.query.id === 'string'){
-          const result = await getWidget(router.query.id)
+        if(typeof router.query.id === 'string' && token){
+          const result = await getWidget(router.query.id, token)
           setWidget(result.widget)
           context.setIsLoading(false)
         }
       })()
-    }, [router])
+    }, [router, token])
 
     const handleAssetClick = (type:'images'|'videos'|'files') => {
         setShowMediaModal(true)
@@ -65,14 +65,14 @@ const create = () => {
         context.setIsLoading(true)
         const assets = deleteNullValues(assetsId)
         try {
-          if(formRef.current){
+          if(formRef.current && token){
               const data = new FormData(formRef.current)
               const json = {
                 title:data.get('title'),
                 description:data.get('description'),
                 ...assets
               }
-              const result = await updateWidget(router.query.id as string, json)
+              const result = await updateWidget(router.query.id as string, json, token)
               context.setIsLoading(false)
               setCreated(true)
           }
@@ -85,8 +85,8 @@ const create = () => {
     const handleDelete = async() => {
       context.setIsLoading(true)
       try {
-        if(widget.id){
-          const result = await deleteWidget(widget.id as string)
+        if(widget.id && token){
+          const result = await deleteWidget(widget.id as string, token)
           router.back()
         }
       } catch (error) {

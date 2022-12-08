@@ -11,7 +11,7 @@ const upload = () => {
     const router = useRouter()
     const formRef = useRef<HTMLFormElement>(null)
     const [uploaded, setUploaded] = useState(false)
-    const { handleLogin } = useAuth()
+    const { handleLogin, token } = useAuth()
     handleLogin()
 
     useEffect(() => {
@@ -23,9 +23,9 @@ const upload = () => {
         e.preventDefault()
         context.setIsLoading(true)
         try {
-            if(formRef.current){
+            if(formRef.current && token){
                 const data = new FormData(formRef.current)
-                const result = await uploadAsset(data)
+                const result = await uploadAsset(data, token)
                 context.setIsLoading(false)
                 setUploaded(true)
             }

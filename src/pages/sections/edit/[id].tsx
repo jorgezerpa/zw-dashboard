@@ -26,15 +26,15 @@ const upsert = () => {
   const { isLoading, setIsLoading, setError, error } = useUIContext()
   const [updated, setUpdated] = useState(false)
   const [isUpdating, setIsUpdating] = useState(false)
-  const { handleLogin } = useAuth()
+  const { handleLogin, token } = useAuth()
   handleLogin()
   
   useEffect(() => {
     (async()=>{
       try {
-        if(typeof router.query.id === 'string'){
+        if(typeof router.query.id === 'string' && token){
           setIsLoading(true)
-          const result = await getSection(router.query.id)
+          const result = await getSection(router.query.id, token)
           setSection(result.section)
           setWidgetsSort(JSON.parse(result.section.widgetsOrder))
           setIsLoading(false)
@@ -59,8 +59,8 @@ const upsert = () => {
         if(formRef.current){
             const data = new FormData(formRef.current)
             data.set('widgetsOrder', JSON.stringify(widgetsSort))
-            if(section.id){
-              const result = await updateSection(section.id, data)
+            if(section.id && token){
+              const result = await updateSection(section.id, data, token)
               setWidgetsSort(JSON.parse(result.section.widgetsOrder))
               setIsUpdating(false)
               setUpdated(true)
@@ -84,8 +84,8 @@ const upsert = () => {
   const handleDelete = async() => {
     setIsLoading(true)
     try {
-      if(section.id){
-        const result = await deleteSection(section.id)
+      if(section.id && token){
+        const result = await deleteSection(section.id, token)
         router.back()
       }
     } catch (error) {

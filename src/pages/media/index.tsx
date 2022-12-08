@@ -13,26 +13,28 @@ const index = () => {
     const router = useRouter()
     const [assets, setAssets] = useState<{ id:string, name:string, identifier:string, path:string }[]>([])
     const typeRef = useRef<HTMLSelectElement>(null)
-    const { handleLogin } = useAuth()
+    const { handleLogin, token } = useAuth()
     handleLogin()
 
     useEffect(() => {
       (async()=>{
             context.setIsLoading(true)
-            try {
-                const result = await getAssets('images')
-                setAssets(result.images)
-                context.setIsLoading(false)
-            } catch (error) {
-                context.setIsLoading(false)
-                context.setError(true)
+            if(token){
+                try {
+                    const result = await getAssets('images', token)
+                    setAssets(result.images)
+                    context.setIsLoading(false)
+                } catch (error) {
+                    context.setIsLoading(false)
+                    context.setError(true)
+                }
             }
         })()
-    }, [router])
+    }, [router, token])
 
     const handleFilter = async(filter:string|undefined) => {
-            if(filter){
-                const result = await getAssets(filter)
+            if(filter && token){
+                const result = await getAssets(filter, token)
                 setAssets(result[filter])
                 context.setIsLoading(false)
                 return 

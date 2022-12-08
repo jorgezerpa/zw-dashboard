@@ -14,14 +14,14 @@ const upsert = () => {
   const [program, setProgram] = useState<{id?:string, name?:string, description?:string}>({})
   const [updated, setUpdated] = useState(false)
   const [isUpdating, setIsUpdating] = useState(false)
-  const { handleLogin } = useAuth()
+  const { handleLogin, token } = useAuth()
   handleLogin()
 
   useEffect(() => {
     (async()=>{
       try {
-        if(typeof router.query.id === 'string'){
-          const result = await getProgram(router.query.id)
+        if(typeof router.query.id === 'string' && token){
+          const result = await getProgram(router.query.id, token)
           setProgram(result.program)
           setIsLoading(false)
         }
@@ -30,7 +30,7 @@ const upsert = () => {
           setError(true)
       }
     })()
-  }, [router])
+  }, [router, token])
 
   const handleSubmit = async(e:SyntheticEvent) => {
       e.preventDefault()
@@ -43,8 +43,8 @@ const upsert = () => {
                 name: data.get('name'),
                 description: data.get('description'),
             }
-            if(program.id){
-              const result = await updateProgram(program.id, updatedProgram)
+            if(program.id && token){
+              const result = await updateProgram(program.id, updatedProgram, token)
               setIsUpdating(false)
               setUpdated(true)
             }
@@ -67,8 +67,8 @@ const upsert = () => {
   const handleDelete = async() => {
     setIsLoading(true)
     try {
-      if(program.id){
-        const result = await deleteProgram(program.id)
+      if(program.id && token){
+        const result = await deleteProgram(program.id, token)
         router.back()
       }
     } catch (error) {

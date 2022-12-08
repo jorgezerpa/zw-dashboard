@@ -11,15 +11,15 @@ const index = () => {
   const { isLoading, setIsLoading, error, setError, handleNavigate } = useUIContext()
   const router = useRouter()
   const [widgets, setWidgets] = useState([])
-  const { handleLogin } = useAuth()
+  const { handleLogin, token } = useAuth()
   handleLogin()
 
   useEffect(() => {
     (async()=>{
       try {
         setIsLoading(true)
-        if(typeof router.query.sectionId === 'string'){
-          const result = await getWidgets(router.query.sectionId)
+        if(typeof router.query.sectionId === 'string' && token){
+          const result = await getWidgets(router.query.sectionId, token)
           setWidgets(result.widgets)
           setIsLoading(false)
         }
@@ -28,7 +28,7 @@ const index = () => {
           setError(true)
       }
     })()
-  }, [router])
+  }, [router, token])
 
   const handleClickToEdit = (id:string|number) => handleNavigate(`/widgets/edit/${id}`)
   const handleClickToCreate = (sectionId:string|number) => router.push(`/widgets/create/${sectionId}`)

@@ -10,25 +10,27 @@ const index = () => {
   const { isLoading, setIsLoading, error, setError, handleNavigate } = useUIContext()
   const router = useRouter()
   const [programs, setPrograms] = useState([])
+  const { handleLogin, token } = useAuth()
+  handleLogin()
 
   const handleClickToEdit = (id:string|number) => handleNavigate(`/programs/${id}`)
   const handleClickToSection = (id:string|number) => handleNavigate(`/sections/${id}`) //the program Id
   const handleClickToCreate = () => router.push('/programs/create')
-  const { handleLogin } = useAuth()
-  handleLogin()
   
   useEffect(() => {
     (async()=>{
-      try {
-        const result = await getPrograms()
-        setPrograms(result.programs)
-        setIsLoading(false)
-      } catch (error) {
-        setIsLoading(false)
-        setError(true)
+      if(token){
+        try {
+          const result = await getPrograms(token)
+          setPrograms(result.programs)
+          setIsLoading(false)
+        } catch (error) {
+          setIsLoading(false)
+          setError(true)
+        }
       }
     })()
-  }, [])
+  }, [token])
   
   return (
     <>
