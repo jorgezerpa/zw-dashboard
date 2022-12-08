@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, Dispatch, SetStateAction } from 'react'
 import { getAssets } from '../../services/zwAPI'
 import { GrFormClose } from 'react-icons/gr' 
+import useAuth from '../../hooks/useAuth'
 
 const defaultThumbnail = "i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_square.jpg"
 
@@ -12,14 +13,18 @@ export const MediaModal = ({type, selectorHandler, openModal}:{type:'images'|'fi
   const searchBarRef = useRef<HTMLInputElement>(null)
   const identifierRef = useRef<HTMLSelectElement>(null)
   const typeRef = useRef<HTMLSelectElement>(null)
+  const { handleLogin, token } = useAuth()
+  handleLogin()
 
   useEffect(() => {
    (async()=>{
-      const result = await getAssets(type)
+    if(token){
+      const result = await getAssets(type, token)
       setAssets(result[type])
       setAssetsSearched(result[type])
+    }
    })()
-  }, [type])
+  }, [type, token])
 
   const handleClick = (id:string|number) => {
     let currentType:'imageId'|'fileId'|'videoId'
