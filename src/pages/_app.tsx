@@ -10,11 +10,11 @@ import '../styles/globals.css'
 export default function App({ Component, pageProps }: AppProps) {
   return(
     <Auth0Provider
-    domain="dev-x7zwzkjp2jhejnw5.us.auth0.com"
-    clientId="BzI7A4OgEBQamHthS6z3Va87qhtXY6nj"
-    redirectUri='http://localhost:3000'
+    domain={ process.env.NEXT_PUBLIC_ZW_API_DOMAIN as string}
+    clientId={process.env.NEXT_PUBLIC_ZW_API_CLIENT_ID as string}
+    redirectUri={process.env.NEXT_PUBLIC_ZW_API_REDIRECT_URI as string}
     scope='admin'
-    audience='https://zerpasw.zerpacode.com/api'
+    audience={process.env.NEXT_PUBLIC_ZW_API_AUDIENCE as string}
     >
         <DndProvider backend={HTML5Backend}>
           <UIContextProvider>

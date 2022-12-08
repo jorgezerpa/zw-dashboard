@@ -14,11 +14,13 @@ export default function useAuth(){
       useEffect(() => {
         (async()=>{
           if(!auth.isLoading){
-            const accessToken = await auth.getAccessTokenSilently({audience:'https://zerpasw.zerpacode.com/api', scope:'admin'})
-            setToken(accessToken)
-            auth.isAuthenticated ? '' : router.push('/login')    
+              if(auth.isAuthenticated){
+                  const accessToken = await auth.getAccessTokenSilently({audience:process.env.NEXT_PUBLIC_ZW_API_AUDIENCE as string, scope:'admin'})
+                  setToken(accessToken)
+              } else {
+                  router.push('/login')    
+              }
           }
-
         })()
       }, [auth.isLoading])
     }    
