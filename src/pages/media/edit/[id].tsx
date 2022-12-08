@@ -4,6 +4,7 @@ import { useUIContext } from '../../../context/UIContext'
 import { useRouter } from 'next/router'
 import { ComeBackButton } from '../../../components/ComeBackButton'
 import { SuccessForm } from '../../../components/SuccessForm'
+import useAuth from '../../../hooks/useAuth'
 
 type AssetType = {id: number|string, path:string, identifier:string, name:string}
 
@@ -13,6 +14,9 @@ const update = () => {
     const formRef = useRef<HTMLFormElement>(null)
     const [uploaded, setUploaded] = useState(false)
     const [asset, setAsset] = useState<Partial<AssetType>>({})
+    const { handleLogin } = useAuth()
+    handleLogin()
+
 
     useEffect(() => {
         (async()=>{

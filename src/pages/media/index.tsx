@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { useUIContext } from '../../context/UIContext'
 import { Loading } from '../../components/Loading'
 import { CreateButton } from '../../commons/CreateButton';
+import useAuth from '../../hooks/useAuth'
 
 const defaultThumbnail = "i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_square.jpg"
 
@@ -12,6 +13,8 @@ const index = () => {
     const router = useRouter()
     const [assets, setAssets] = useState<{ id:string, name:string, identifier:string, path:string }[]>([])
     const typeRef = useRef<HTMLSelectElement>(null)
+    const { handleLogin } = useAuth()
+    handleLogin()
 
     useEffect(() => {
       (async()=>{

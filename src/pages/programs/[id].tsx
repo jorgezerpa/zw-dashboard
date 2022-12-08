@@ -5,6 +5,7 @@ import { ComeBackButton } from '../../components/ComeBackButton'
 import { useUIContext } from '../../context/UIContext'
 import { Loading } from '../../components/Loading'
 import { SuccessForm } from '../../components/SuccessForm'
+import useAuth from '../../hooks/useAuth'
 
 const upsert = () => {
   const { isLoading, setIsLoading, error, setError } = useUIContext()
@@ -13,6 +14,8 @@ const upsert = () => {
   const [program, setProgram] = useState<{id?:string, name?:string, description?:string}>({})
   const [updated, setUpdated] = useState(false)
   const [isUpdating, setIsUpdating] = useState(false)
+  const { handleLogin } = useAuth()
+  handleLogin()
 
   useEffect(() => {
     (async()=>{

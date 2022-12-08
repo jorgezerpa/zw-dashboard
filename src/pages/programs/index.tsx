@@ -4,6 +4,7 @@ import { getPrograms } from '../../services/zwAPI';
 import { useUIContext } from '../../context/UIContext';
 import { CreateButton } from '../../commons/CreateButton';
 import { Loading } from '../../components/Loading';
+import useAuth from '../../hooks/useAuth'
 
 const index = () => {
   const { isLoading, setIsLoading, error, setError, handleNavigate } = useUIContext()
@@ -13,7 +14,9 @@ const index = () => {
   const handleClickToEdit = (id:string|number) => handleNavigate(`/programs/${id}`)
   const handleClickToSection = (id:string|number) => handleNavigate(`/sections/${id}`) //the program Id
   const handleClickToCreate = () => router.push('/programs/create')
-
+  const { handleLogin } = useAuth()
+  handleLogin()
+  
   useEffect(() => {
     (async()=>{
       try {

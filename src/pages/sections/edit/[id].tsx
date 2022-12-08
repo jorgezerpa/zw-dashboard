@@ -6,6 +6,7 @@ import { ComeBackButton } from '../../../components/ComeBackButton'
 import { WidgetsOrderModal } from '../../../components/widgetsOrderModal/WidgetsOrderModal'
 import { Loading } from '../../../components/Loading'
 import { SuccessForm } from '../../../components/SuccessForm'
+import useAuth from '../../../hooks/useAuth'
 
 type WidgetType = {
   id?: number, 
@@ -25,6 +26,8 @@ const upsert = () => {
   const { isLoading, setIsLoading, setError, error } = useUIContext()
   const [updated, setUpdated] = useState(false)
   const [isUpdating, setIsUpdating] = useState(false)
+  const { handleLogin } = useAuth()
+  handleLogin()
   
   useEffect(() => {
     (async()=>{

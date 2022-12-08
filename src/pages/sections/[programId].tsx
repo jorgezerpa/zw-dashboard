@@ -4,6 +4,7 @@ import { getSections } from '../../services/zwAPI';
 import { ComeBackButton } from '../../components/ComeBackButton';
 import { useUIContext } from '../../context/UIContext';
 import { CreateButton } from '../../commons/CreateButton';
+import useAuth from '../../hooks/useAuth'
 
 const index = () => {
   const { isLoading, setIsLoading, error, setError, handleNavigate } = useUIContext()
@@ -13,7 +14,9 @@ const index = () => {
   const handleClickToEdit = (id:string|number) => handleNavigate(`/sections/edit/${id}`)
   const handleClickToSection = (id:string|number) => handleNavigate(`/widgets/${id}`) //the program Id
   const handleClickToCreate = (programId:string|number) => router.push(`/sections/create/${programId}`)
-
+  const { handleLogin } = useAuth()
+  handleLogin()
+  
   useEffect(() => {
     (async()=>{
       try {

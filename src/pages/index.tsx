@@ -1,18 +1,10 @@
-import { useEffect } from 'react';
 import { AiOutlineSmile } from 'react-icons/ai'
-import { useAuth0 } from "@auth0/auth0-react";
-import { useRouter } from 'next/router';
+import useAuth from '../hooks/useAuth'
 
 export default function Home() {
-  const { isAuthenticated, isLoading } = useAuth0()
-  const router = useRouter()
+  const { handleLogin } = useAuth()
+  handleLogin()
 
-  useEffect(() => {
-    if(!isLoading){
-      isAuthenticated ? '' : router.push('/login')    
-    }
-  }, [isLoading])
-  
   return (
     <div>
       <div className='flex justify-center items-center flex-col gap-2 w-full h-screen bg-center bg-no-repeat bg-cover '>

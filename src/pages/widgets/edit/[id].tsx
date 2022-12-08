@@ -9,6 +9,7 @@ import { BsFillImageFill } from 'react-icons/bs'
 import { FaVideo } from 'react-icons/fa'
 import { AiFillFileText } from 'react-icons/ai'
 import { SuccessForm } from '../../../components/SuccessForm'
+import useAuth from '../../../hooks/useAuth'
 
 const HaveAsset = () => {
   return(
@@ -41,6 +42,8 @@ const create = () => {
       videoId: null,
       imageId: null
     })
+    const { handleLogin } = useAuth()
+    handleLogin()
 
     useEffect(()=>{
       (async()=>{

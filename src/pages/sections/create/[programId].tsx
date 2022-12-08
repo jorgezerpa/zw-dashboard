@@ -4,12 +4,15 @@ import { useRouter } from 'next/router'
 import { ComeBackButton } from '../../../components/ComeBackButton'
 import { useUIContext } from '../../../context/UIContext'
 import { SuccessForm } from '../../../components/SuccessForm'
+import useAuth from '../../../hooks/useAuth'
 
 const create = () => {
-    const context = useUIContext()
-    const [created, setCreated] = useState(false)
-    const formRef = useRef<HTMLFormElement>(null)
-    const router = useRouter()
+  const context = useUIContext()
+  const [created, setCreated] = useState(false)
+  const formRef = useRef<HTMLFormElement>(null)
+  const router = useRouter()
+  const { handleLogin } = useAuth()
+  handleLogin()
 
     useEffect(()=>{context.setIsLoading(false)}, [])
 

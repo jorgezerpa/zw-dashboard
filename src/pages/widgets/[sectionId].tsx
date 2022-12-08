@@ -5,11 +5,14 @@ import { ComeBackButton } from '../../components/ComeBackButton';
 import { useUIContext } from '../../context/UIContext';
 import { CreateButton } from '../../commons/CreateButton';
 import { Loading } from '../../components/Loading';
+import useAuth from '../../hooks/useAuth'
 
 const index = () => {
   const { isLoading, setIsLoading, error, setError, handleNavigate } = useUIContext()
   const router = useRouter()
   const [widgets, setWidgets] = useState([])
+  const { handleLogin } = useAuth()
+  handleLogin()
 
   useEffect(() => {
     (async()=>{

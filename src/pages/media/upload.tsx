@@ -4,12 +4,15 @@ import { useUIContext } from '../../context/UIContext'
 import { useRouter } from 'next/router'
 import { SuccessForm } from '../../components/SuccessForm'
 import { ComeBackButton } from '../../components/ComeBackButton'
+import useAuth from '../../hooks/useAuth'
 
 const upload = () => {
     const context = useUIContext()
     const router = useRouter()
     const formRef = useRef<HTMLFormElement>(null)
     const [uploaded, setUploaded] = useState(false)
+    const { handleLogin } = useAuth()
+    handleLogin()
 
     useEffect(() => {
         context.setIsLoading(false)
