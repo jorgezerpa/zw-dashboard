@@ -4,6 +4,7 @@ import Dragable from './dragable'
 import Dropable from './dropable'
 import ScrollZone from './ScrollZone'
 import { GrFormClose } from 'react-icons/gr'
+import useAuth from '../../hooks/useAuth'
 
 type WidgetType = {
   id?: number, 
@@ -33,6 +34,8 @@ export const WidgetsOrderModal = ({sectionId, openModal, handleWidgetsSort, widg
   const [widgets, setWidgets] = useState<any[]>([])
   const [isDragging, setIsDragging] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
+  const { handleLogin, token } = useAuth()
+  handleLogin()
 
   const handleSetNewOrder = (widgets:any[]) => {
     setWidgets(widgets)
@@ -43,14 +46,16 @@ export const WidgetsOrderModal = ({sectionId, openModal, handleWidgetsSort, widg
 
   useEffect(() => {
    (async()=>{
-      const result = await getWidgets(sectionId)
-      let widgetsSorted:WidgetType[] = []
-      widgetsSort.forEach((id)=>{
-        result.widgets.forEach((widget:WidgetType)=>{if(id==widget.id) widgetsSorted.push(widget)})
-      })
-      setWidgets(widgetsSorted)
+      if(token){
+        const result = await getWidgets(sectionId, token)
+        let widgetsSorted:WidgetType[] = []
+        widgetsSort.forEach((id)=>{
+          result.widgets.forEach((widget:WidgetType)=>{if(id==widget.id) widgetsSorted.push(widget)})
+        })
+        setWidgets(widgetsSorted)
+      }
    })()
-  }, [])
+  }, [token])
 
   return (
     <div className='absolute flex justify-center items-center top-0 left-0 right-0 bottom-0 bg-[rgba(0,0,0,.3)]'>  
