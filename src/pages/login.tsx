@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 
 const Login = () => {
     const { loginWithRedirect } = useAuth0()
-    const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0()
+    const { isAuthenticated, isLoading } = useAuth0()
     const router = useRouter()
 
     useEffect(() => {
