@@ -31,7 +31,7 @@ export const Sidebar = () => {
                       media
                 </div>
               </Link>
-              <div onClick={()=>logout()}>logout</div>
+              <div onClick={()=>logout({returnTo:process.env.NEXT_PUBLIC_ZW_API_REDIRECT_URI as string })}>logout</div>
     </div>
   )
 }
