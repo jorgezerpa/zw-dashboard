@@ -45,7 +45,7 @@ const index = () => {
 
       {(!isLoading && !error ) && (
         <div className='w-full h-screen p-5 flex flex-wrap gap-20'>
-          { widgets.length<=0 && <div> no tienes Widgets</div> }
+          { widgets.length<=0 && <div> you don't have Widgets</div> }
           { widgets.length>0 && widgets.map((widget:{ id:string|number, title:string, description:string })=>(
             <div 
               key={`widgetKey${widget.id}`} 
@@ -54,7 +54,7 @@ const index = () => {
             >
               <h2 className='text-white text-center font-bold text-xl pb-2'>{ widget.title }</h2>
               <p className='text-white text-center pb-5 text-md'>{ widget.description }</p>
-              <div onClick={(e)=>{ e.stopPropagation(); handleClickToEdit(widget.id)}} className="py-2 px-4 bg-yellow-500 font-bold text-white rounded-xl hover:shadow-white hover:shadow-sm">editar</div>
+              <div onClick={(e)=>{ e.stopPropagation(); handleClickToEdit(widget.id)}} className="py-2 px-4 bg-yellow-500 font-bold text-white rounded-xl hover:shadow-white hover:shadow-sm">edit</div>
             </div>
           ))}
         </div>

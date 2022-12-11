@@ -58,17 +58,17 @@ export const MediaModal = ({type, selectorHandler, openModal}:{type:'images'|'fi
               <GrFormClose size={30} />
         </div>
           <div className='w-full flex justify-between px-2 py-5 mb-4 bg-gray-100'>
-            <input ref={searchBarRef} type="text" className='shadow-gray-300 shadow-sm p-1' placeholder="nombre" onChange={handleFilters} />
+            <input ref={searchBarRef} type="text" className='shadow-gray-300 shadow-sm p-1' placeholder="name" onChange={handleFilters} />
             <select ref={identifierRef} onChange={handleFilters} className='shadow-gray-300 shadow-sm p-1'>
-              <option value="">todos</option>
-              <option value="hs course">hs course</option>
-              <option value="muscle up course">muscle up course</option>
+              <option value="">all</option>
+              <option value="hand stand course">hand stand course</option>
+              <option value="typescript course">typescript course</option>
             </select>
           </div>
       </div>
 
         <div className='w-full h-full flex flex-wrap justify-center gap-10'>
-          { assetsSearched.length<=0 && <div>no hay coincidencias</div>}
+          { assetsSearched.length<=0 && <div>no matches</div>}
           { assetsSearched.length>0 && assetsSearched.map(asset=>{
             const pathArr = asset.path.split("/") 
             const path = pathArr.slice(3, pathArr.length).join("/")
@@ -76,7 +76,7 @@ export const MediaModal = ({type, selectorHandler, openModal}:{type:'images'|'fi
               <div key={"media-asset"+asset.id} onClick={()=>handleClick(asset.id)}>
                 <div className='w-[150px] h-[150px] bg-center bg-no-repeat bg-cover' style={{ backgroundImage:`url(https://${ type==='images'?path:defaultThumbnail})` }}></div>
                 <h3 className='font-bold'>{asset.name}</h3>
-                <p className='text-sm mb-3'><span className='font-bold'>identificador:</span> {asset.identifier}</p>
+                <p className='text-sm mb-3'><span className='font-bold'>identifier:</span> {asset.identifier}</p>
               </div>
             )}
           )

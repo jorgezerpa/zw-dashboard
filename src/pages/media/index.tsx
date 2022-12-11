@@ -53,8 +53,8 @@ const index = () => {
                 handleFilter(target.value)}
                 }
                 >
-                    <option value="images">Imagenes</option>
-                    <option value="files">Archivos</option>
+                    <option value="images">Images</option>
+                    <option value="files">files</option>
                     <option value="videos">Videos</option>
                 </select>
                 <CreateButton handleClickToCreate={handleClickToUpload} />
@@ -63,7 +63,7 @@ const index = () => {
             { context.isLoading && <Loading /> }
             { !context.isLoading && (
                 <div className='p-2'>   
-                    { (!context.isLoading && assets.length<=0) && <div>no tienes assets</div>}
+                    { (!context.isLoading && assets.length<=0) && <div>you don't have assets.</div>}
     
                     { !context.isLoading && (
                         <div className='flex justify-center flex-wrap gap-10  pt-20'>
@@ -74,9 +74,9 @@ const index = () => {
                                     <div key={'media-'+asset.path} className="">
                                         <div className='w-[150px] h-[150px] bg-center bg-no-repeat bg-cover' style={{ backgroundImage:`url(https://${ typeRef.current?.value==='images'?path:defaultThumbnail})` }}></div>
                                         <h3 className='font-bold'>{asset.name}</h3>
-                                        <p className='text-sm mb-3'><span className='font-bold'>identificador:</span> {asset.identifier}</p>
+                                        <p className='text-sm mb-3'><span className='font-bold'>identifier:</span> {asset.identifier}</p>
                                         <button onClick={()=>handleClickToEdit(asset.id)} className="py-2 px-4 bg-yellow-500 font-bold text-white rounded-xl hover:shadow-white hover:shadow-sm">
-                                            editar
+                                            edit
                                         </button>
                                         {/* <p>{asset.path}</p> */}
                                     </div>

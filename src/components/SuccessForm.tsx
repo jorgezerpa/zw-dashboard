@@ -10,7 +10,7 @@ export const SuccessForm = ({ message }:{message:string}) => {
     return (
     <>
         <div className='font-bold text-gray-700 mb-2'>{message}</div>
-        <div className='font-bold text-gray-900 flex gap-1 items-center' onClick={()=>{context.setIsLoading(true); router.back()}}><BiArrowBack /> volver</div>
+        <div className='font-bold text-gray-900 flex gap-1 items-center' onClick={()=>{context.setIsLoading(true); router.back()}}><BiArrowBack /> come back</div>
     </>
   )
 }

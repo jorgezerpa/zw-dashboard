@@ -2,8 +2,8 @@ import React from 'react'
 import { useRouter } from 'next/router'
 import { useUIContext } from '../context/UIContext'
 
-const titleDefault = "Ups! parece que hubo un error."
-const messageDefault = "Lamentamos las Molestias. Intenta de nuevo."
+const titleDefault = "Ups! there is an error"
+const messageDefault = "sorry for the inconvenience, try again"
 
 export const ErrorModal = ({title=titleDefault, message=messageDefault}:{title?:string, message?:string}) => {
   const router = useRouter()
@@ -15,7 +15,7 @@ export const ErrorModal = ({title=titleDefault, message=messageDefault}:{title?:
           <h4 className='font-bold text-2xl text-center mb-2'>{title}</h4>
           <p className='text-center mb-4'>{message}</p>
           <div className='w-full flex justify-center'>
-            <button className='py-2 px-4 bg-blue-800 font-bold text-lg text-white rounded-lg' onClick={()=>setError(false)}>Entendido</button>
+            <button className='py-2 px-4 bg-blue-800 font-bold text-lg text-white rounded-lg' onClick={()=>setError(false)}>okay</button>
           </div>
         </div>
     </div>

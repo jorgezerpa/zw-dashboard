@@ -99,39 +99,39 @@ const upsert = () => {
       <div>
         <ComeBackButton />
       </div>
-      <h2 className='text-4xl font-bold mb-5 pl-5'>Actualizar Sección</h2>
+      <h2 className='text-4xl font-bold mb-5 pl-5'>Update section</h2>
       {isLoading && <div><Loading /></div>}
       { (!isLoading && !error) && (
           <form className='pl-5' ref={ formRef } onSubmit={handleSubmit} onChange={handleOnChage} method="POST" encType='multipart/form-data' >
             <div className="mb-6">
-              <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre</label>
+              <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
               <input defaultValue={section.name} name="name" type="text" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
             </div>
             <div className="mb-6">
-              <label htmlFor="coverImage" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Portada</label>
+              <label htmlFor="coverImage" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cover Image</label>
               <input name="coverImage" type="file" id="coverImage" accept='image' />
             </div>
             <div className="mb-6">
-              <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descripción</label>
+              <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
               <input defaultValue={section.description} name="description" type="text" id="description" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
             </div>
             <div className="mb-6">
-              <div onClick={()=>setShowWidgetsOrderModal(true)} className="py-2 px-4 hover:shadow-md hover:shadow-gray-700 bg-blue-700 inline-block text-white rounded-lg">orden de los widgets</div>
+              <div onClick={()=>setShowWidgetsOrderModal(true)} className="py-2 px-4 hover:shadow-md hover:shadow-gray-700 bg-blue-700 inline-block text-white rounded-lg">widgets sort</div>
             </div>
 
               <div className="mb-6">
-                <label defaultValue={section.type || 'class'} htmlFor="type" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">tipo</label>
+                <label defaultValue={section.type || 'class'} htmlFor="type" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">type</label>
                 <select name="type" id="type" required>
-                  <option value="class">clase</option>
-                  <option value="file">archivo</option>
-                  <option value="image">imagen</option>
+                  <option value="class">class</option>
+                  <option value="file">file</option>
+                  <option value="image">image</option>
                 </select>
             </div>
             <button type="submit" className="mr-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-              Actualizar
+              update
             </button>
             <button onClick={handleDelete} className="text-white bg-red-600 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                  Eliminar
+                  delete
             </button>
           </form>
       )}
@@ -142,7 +142,7 @@ const upsert = () => {
       )}
       { (isUpdating) && (
         <div>
-          <div>actualizando...</div>
+          <div>updating...</div>
         </div>
       )}
 

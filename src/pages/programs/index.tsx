@@ -40,7 +40,7 @@ const index = () => {
       {isLoading && <div><Loading /></div>}
       {(!isLoading && !error ) && (
           <div className='w-full h-screen p-5 sm:p-10 flex flex-wrap gap-20'>
-            { programs.length<=0 && <div className='w-full flex justify-center items-center h-[200px]'><h3 className='text-gray-900 text-5xl font-bold'>No Tienes Programas</h3></div> }
+            { programs.length<=0 && <div className='w-full flex justify-center items-center h-[200px]'><h3 className='text-gray-900 text-5xl font-bold'>You don't programs. Create a new one!</h3></div> }
             { programs.length>0 && programs.map((program:{ id:string|number, name:string, description:string })=>(
               <div 
                 key={`programKey${program.id}`} 

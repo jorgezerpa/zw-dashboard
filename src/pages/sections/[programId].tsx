@@ -4,6 +4,7 @@ import { getSections } from '../../services/zwAPI';
 import { ComeBackButton } from '../../components/ComeBackButton';
 import { useUIContext } from '../../context/UIContext';
 import { CreateButton } from '../../commons/CreateButton';
+import { Loading } from '../../components/Loading';
 import useAuth from '../../hooks/useAuth'
 
 const index = () => {
@@ -25,9 +26,11 @@ const index = () => {
           setSections(result.sections)
           setIsLoading(false)
         }          
-      } catch (error) {
+      } catch (error:any) {
+        if(error.response.data.error.statusCode!==404){
+          setError(true)
+        }
         setIsLoading(false)
-        setError(true)
       }
     })()
   }, [token])
@@ -39,11 +42,10 @@ const index = () => {
         <CreateButton handleClickToCreate={()=>handleClickToCreate(router.query.programId as string)} />
       </div>
 
-      {isLoading && <div>Loading...</div>}
-      
+      {isLoading && <Loading />}      
       {(!isLoading && !error) && (
-        <div className='w-full h-screen p-5 flex flex-wrap gap-20'>
-          { sections.length<=0 && <div> no tienes Secciones </div> }
+        <div className='w-full h-screen p-5 flex flex-wrap gap-20'> 
+          { sections.length<=0 && <div className='w-full flex justify-center items-center h-[200px]'><h3 className='text-gray-900 text-5xl font-bold'>you don't have sections</h3></div> }
           { sections.length>0 && sections.map((section:{ id:string|number, name:string, description:string })=>(
             <div 
               key={`sectionKey${section.id}`} 
@@ -52,7 +54,7 @@ const index = () => {
             >
               <h2 className='text-white text-center font-bold text-xl pb-2'>{ section.name }</h2>
               <p className='text-white text-center pb-5 text-md'>{ section.description }</p>
-              <div onClick={(e)=>{ e.stopPropagation(); handleClickToEdit(section.id)}} className="py-2 px-4 bg-yellow-500 font-bold text-white rounded-xl hover:shadow-white hover:shadow-sm" >editar</div>
+              <div onClick={(e)=>{ e.stopPropagation(); handleClickToEdit(section.id)}} className="py-2 px-4 bg-yellow-500 font-bold text-white rounded-xl hover:shadow-white hover:shadow-sm" >edit</div>
             </div>
           ))}
         </div>

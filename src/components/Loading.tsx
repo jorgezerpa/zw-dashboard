@@ -8,7 +8,7 @@ export const Loading = () => {
             </div>
             <div className='top-[15px] left-[15px] absolute w-[90px] h-[90px] rounded-[50%] border-dashed border-gray-500 border-[3px] animate-spin2'></div>
             <div className='flex w-full h-full justify-center items-center'>
-                <p className='text-sm text-gray-900 font-bold'>...cargando</p>
+                <p className='text-sm text-gray-900 font-bold'>...loading</p>
             </div>
     </div>
     </div>
